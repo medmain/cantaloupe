@@ -1,5 +1,6 @@
 package edu.illinois.library.cantaloupe.processor;
 
+import edu.illinois.library.cantaloupe.config.Configuration;
 import edu.illinois.library.cantaloupe.image.Dimension;
 import edu.illinois.library.cantaloupe.image.Format;
 import edu.illinois.library.cantaloupe.image.Info;
@@ -152,6 +153,14 @@ class KakaduNativeProcessor implements FileProcessor, StreamProcessor {
 
     static synchronized void resetInitialization() {
         IS_CLASS_INITIALIZED.set(false);
+    }
+
+    KakaduNativeProcessor() {
+        Configuration config = Configuration.getInstance();
+        reader.setNumThreads(
+                config.getInt("KakaduNativeProcessor.num_threads", 0));
+        reader.setPersistentCodestream(
+                config.getBoolean("KakaduNativeProcessor.persistent_codestream", false));
     }
 
     @Override

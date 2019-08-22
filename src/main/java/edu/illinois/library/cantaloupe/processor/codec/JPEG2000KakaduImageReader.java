@@ -176,13 +176,6 @@ public final class JPEG2000KakaduImageReader implements AutoCloseable {
     private static final int EXPAND_DENOMINATOR = 10000000;
     private static final int MAX_LAYERS         = 16384;
 
-    /**
-     * N.B.: {@link Kdu_global#Kdu_get_num_processors()} is another way of
-     * getting the CPU count. Unknown whether it's any more or less reliable.
-     */
-    private static final int NUM_THREADS =
-            Math.max(1, Runtime.getRuntime().availableProcessors());
-
     // N.B.: see the end notes in the KduRender.java file in the Kakadu SDK
     // for explanation of how this stuff needs to be destroyed. (And it DOES
     // need to be destroyed!)
@@ -195,6 +188,14 @@ public final class JPEG2000KakaduImageReader implements AutoCloseable {
     private Kdu_region_decompressor decompressor = new Kdu_region_decompressor();
     private Kdu_thread_env threadEnv             = new Kdu_thread_env();
     private Kdu_quality_limiter limiter          = new Kdu_quality_limiter(1 / 256f, false);
+
+    private boolean isPersistentCodestream;
+
+    /**
+     * N.B.: {@link Kdu_global#Kdu_get_num_processors()} is another way of
+     * getting the CPU count. Unknown whether it's any more or less reliable.
+     */
+    private int numThreads = Runtime.getRuntime().availableProcessors();
 
     /**
      * Set by {@link #setSource(Path)}. Used preferentially over {@link
@@ -335,6 +336,21 @@ public final class JPEG2000KakaduImageReader implements AutoCloseable {
         return xmp;
     }
 
+    /**
+     * @param numThreads Number of threads to use for decompression. Supply 0
+     *                   to use the default.
+     */
+    public void setNumThreads(int numThreads) {
+        if (numThreads == 0) {
+            numThreads = Runtime.getRuntime().availableProcessors();
+        }
+        this.numThreads = numThreads;
+    }
+
+    public void setPersistentCodestream(boolean isPersistentCodestream) {
+        this.isPersistentCodestream = isPersistentCodestream;
+    }
+
     public void setSource(ImageInputStream inputStream) {
         this.inputStream = inputStream;
     }
@@ -386,14 +402,17 @@ public final class JPEG2000KakaduImageReader implements AutoCloseable {
                 }
             }
 
-            // Tell Kakadu to use as many more threads as we have CPUs.
             threadEnv.Create();
-            for (int t = 1; t < NUM_THREADS; t++) {
+            for (int t = 1; t < numThreads; t++) {
                 threadEnv.Add_thread();
             }
 
             codestream.Create(compSrc, threadEnv);
             codestream.Set_resilient();
+
+            if (isPersistentCodestream) {
+                codestream.Set_persistent();
+            }
 
             boolean anyChannels = false;
             if (layerSrc != null) {
@@ -592,7 +611,8 @@ public final class JPEG2000KakaduImageReader implements AutoCloseable {
                             codestream.Get_min_dwt_levels(),
                             reductionFactor.factor);
                 }
-                LOGGER.trace("readRegion(): read in {}", watch);
+                LOGGER.trace("readRegion(): read using {} threads in {}",
+                        numThreads, watch);
             }
         } catch (KduException e) {
             try {
