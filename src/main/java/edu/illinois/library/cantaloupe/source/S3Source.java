@@ -251,6 +251,10 @@ final class S3Source extends AbstractSource implements StreamSource {
                         credentials.getAWSAccessKeyId(),
                         credentials.getAWSSecretKey(),
                         awsRegionFromURL(endpoint));
+
+                if (LOGGER.isTraceEnabled()) {
+                    client.traceOn(System.out);
+                }
             } catch (InvalidEndpointException | InvalidPortException e) {
                 throw new IllegalArgumentException(e);
             }
