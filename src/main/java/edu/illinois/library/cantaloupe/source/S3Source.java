@@ -246,11 +246,18 @@ final class S3Source extends AbstractSource implements StreamSource {
                     credentialsProvider.getCredentials();
             try {
                 final String endpoint = config.getString(Key.S3SOURCE_ENDPOINT);
+                String region = awsRegionFromURL(endpoint);
+
+                LOGGER.warn("Endpoint " + endpoint);
+                LOGGER.warn("Access key " + credentials.getAWSAccessKeyId());
+                LOGGER.warn("Secret key " + credentials.getAWSSecretKey());
+                LOGGER.warn("Region " + region);
+
                 client = new MinioClient(
                         endpoint,
                         credentials.getAWSAccessKeyId(),
                         credentials.getAWSSecretKey(),
-                        awsRegionFromURL(endpoint));
+                        region);
 
                 if (LOGGER.isTraceEnabled()) {
                     client.traceOn(System.out);

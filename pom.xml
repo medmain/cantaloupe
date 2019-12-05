@@ -5,7 +5,7 @@
     <groupId>edu.illinois.library.cantaloupe</groupId>
     <artifactId>cantaloupe</artifactId>
     <packaging>war</packaging>
-    <version>5.0-SNAPSHOT</version>
+    <version>5.0.1</version>
     <name>Cantaloupe</name>
     <url>https://cantaloupe-project.github.io/</url>
     <inceptionYear>2015</inceptionYear>
@@ -13,7 +13,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <aws-sdk.version>1.11.538</aws-sdk.version>
+        <aws-sdk.version>1.11.683</aws-sdk.version>
         <jackson.version>2.9.9</jackson.version>
         <jetty.version>9.4.12.v20180830</jetty.version>
         <jruby.version>9.2.7.0</jruby.version>
@@ -167,7 +167,7 @@
         <dependency>
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
-            <version>6.0.8</version>
+            <version>6.0.11</version>
         </dependency>
         <!-- Dependency on part of Java EE that's available by default in Java 8
         but not 9 -->
