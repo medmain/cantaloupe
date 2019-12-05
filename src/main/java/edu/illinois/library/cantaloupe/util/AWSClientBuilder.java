@@ -58,12 +58,12 @@ public final class AWSClientBuilder {
                 return new AWSCredentials() {
                     @Override
                     public String getAWSAccessKeyId() {
-                        return accessKeyIDFromConfig;
+                        return accessKeyIDFromConfig.isBlank() ? null : accessKeyIDFromConfig;
                     }
 
                     @Override
                     public String getAWSSecretKey() {
-                        return secretKeyFromConfig;
+                        return secretKeyFromConfig.isBlank() ? null : secretKeyFromConfig;
                     }
                 };
             }
