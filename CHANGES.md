@@ -1,5 +1,17 @@
 # Change Log
 
+## 4.1.6
+
+* Image information is no longer included in IIIF information responses with
+  an HTTP 403 status.
+* Fixed overridden boolean values not being recognized in inherited
+  configuration files.
+* Fixed information responses failing to respect the `page` URL query argument.
+* Fixed a bug that caused requests for data beyond an offset of 2^31 from
+  S3Source and AzureStorageSource to fail when chunking is enabled.
+* Updated JRuby to version 9.2.11.1, which addresses multiple CVEs.
+* Updated Jackson to version 2.11.0, which addresses multiple CVEs.
+
 ## 4.1.5
 
 * Fixed the IIIF Image API 2.x endpoint's handling of identifiers containing
