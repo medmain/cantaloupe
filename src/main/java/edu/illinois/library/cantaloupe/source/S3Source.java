@@ -9,7 +9,9 @@ import edu.illinois.library.cantaloupe.image.Format;
 import edu.illinois.library.cantaloupe.image.MediaType;
 import edu.illinois.library.cantaloupe.script.DelegateMethod;
 import edu.illinois.library.cantaloupe.util.AWSClientBuilder;
+import edu.illinois.library.cantaloupe.util.Stopwatch;
 import io.minio.MinioClient;
+import io.minio.ObjectStat;
 import io.minio.errors.ErrorResponseException;
 import io.minio.errors.InvalidBucketNameException;
 import io.minio.errors.InvalidEndpointException;
@@ -180,8 +182,11 @@ class S3Source extends AbstractSource implements StreamSource {
             if (range != null) {
                 LOGGER.debug("Requesting bytes {}-{} from {}",
                         range.start, range.end, info);
-                return mc.getObject(info.getBucketName(), info.getKey(),
+                Stopwatch stopwatch = new Stopwatch();
+                InputStream object = mc.getObject(info.getBucketName(), info.getKey(),
                         range.start, range.end - range.start + 1);
+                LOGGER.debug("S3 object retrieved in {}", stopwatch);
+                return object;
             } else {
                 LOGGER.debug("Requesting {}", info);
                 return mc.getObject(info.getBucketName(), info.getKey());

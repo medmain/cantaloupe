@@ -38,7 +38,7 @@ class S3HTTPImageInputStreamClient implements HTTPImageInputStreamClient {
         final String bucket  = objectInfo.getBucketName();
         final String key     = objectInfo.getKey();
         try {
-            Stopwatch stopwatch = new Stopwatch()
+            Stopwatch stopwatch = new Stopwatch();
             final ObjectStat stat = mc.statObject(bucket, key);
             LOGGER.info("S3 object retrieved in {}", stopwatch);
             final Response response = new Response();
