@@ -3,6 +3,7 @@ package edu.illinois.library.cantaloupe.source;
 import edu.illinois.library.cantaloupe.http.Range;
 import edu.illinois.library.cantaloupe.http.Response;
 import edu.illinois.library.cantaloupe.source.stream.HTTPImageInputStreamClient;
+import edu.illinois.library.cantaloupe.util.Stopwatch;
 import io.minio.MinioClient;
 import io.minio.ObjectStat;
 import io.minio.errors.ErrorResponseException;
@@ -37,7 +38,9 @@ class S3HTTPImageInputStreamClient implements HTTPImageInputStreamClient {
         final String bucket  = objectInfo.getBucketName();
         final String key     = objectInfo.getKey();
         try {
+            Stopwatch stopwatch = new Stopwatch()
             final ObjectStat stat = mc.statObject(bucket, key);
+            LOGGER.info("S3 object retrieved in {}", stopwatch);
             final Response response = new Response();
             response.setStatus(200);
             response.getHeaders().set("Content-Length",
