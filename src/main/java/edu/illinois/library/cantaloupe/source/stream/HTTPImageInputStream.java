@@ -46,7 +46,7 @@ public class HTTPImageInputStream extends ImageInputStreamImpl
     /**
      * Enables debug logging, which may be very expensive.
      */
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     /**
      * Can be overridden by {@link #setWindowSize(int)}.
