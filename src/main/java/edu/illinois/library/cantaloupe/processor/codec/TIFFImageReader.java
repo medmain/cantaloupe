@@ -51,7 +51,7 @@ final class TIFFImageReader extends AbstractIIOImageReader
 
         // Before Java 9, the Sun TIFF reader was part of the JAI ImageI/O
         // Tools. Then it was moved into the JDK.
-        if (SystemUtils.getJavaMajorVersion() < 9) {
+        if (SystemUtils.isJava9OrAbove()) {
             impls[1] = "com.sun.media.imageioimpl.plugins.tiff.TIFFImageReader";
         } else {
             impls[1] = "com.sun.imageio.plugins.tiff.TIFFImageReader";

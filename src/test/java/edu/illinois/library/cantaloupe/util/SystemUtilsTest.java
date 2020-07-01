@@ -9,23 +9,13 @@ public class SystemUtilsTest {
     @Test
     public void testGetJavaMajorVersion() {
         // This will be tested indirectly in testParseJavaMajorVersion().
-        assertTrue(SystemUtils.getJavaMajorVersion() >= 8);
-    }
-
-    @Test
-    public void testParseJavaMajorVersion() {
-        assertEquals(8, SystemUtils.parseJavaMajorVersion("1.8.0_63"));
-        assertEquals(9, SystemUtils.parseJavaMajorVersion("9"));
-        assertEquals(9, SystemUtils.parseJavaMajorVersion("9.0.1"));
-        assertEquals(9, SystemUtils.parseJavaMajorVersion("9.1.0"));
-        assertEquals(10, SystemUtils.parseJavaMajorVersion("10"));
-        assertEquals(10, SystemUtils.parseJavaMajorVersion("10.0.1"));
+        assertTrue(SystemUtils.isJava9OrAbove());
     }
 
     @Test
     public void testIsALPNAvailable() {
         boolean result = SystemUtils.isALPNAvailable();
-        if (SystemUtils.getJavaMajorVersion() >= 9) {
+        if (SystemUtils.isJava9OrAbove()) {
             assertTrue(result);
         } else {
             assertFalse(result);
