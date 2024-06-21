@@ -58,6 +58,12 @@
     </issueManagement>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/javax.media/jai_imageio -->
+        <dependency>
+            <groupId>javax.media</groupId>
+            <artifactId>jai_imageio</artifactId>
+            <version>1.1</version>
+        </dependency>
         <!-- Used by RedisCache -->
         <dependency>
             <groupId>biz.paluch.redis</groupId>
@@ -437,6 +443,12 @@
             <id>imageio-ext-repository</id>
             <name>imageio-ext Repository</name>
             <url>https://maven.geo-solutions.it/</url>
+        </repository>
+        <!-- needed for jai module -->
+        <repository>
+            <id>maven.geotoolkit.org</id>
+            <name>maven.geotoolkit.org</name>
+            <url>https://maven.geotoolkit.org/</url>
         </repository>
     </repositories>
 
