@@ -2,7 +2,7 @@
   "version": "31",
   "credential": {
     "accessKey": "MinioUser",
-    "secretKey": "OpenSesame",
+    "secretKey": "OpenSesame=2024",
     "expiration": "0001-01-01T00:00:00Z"
   },
   "region": "",
