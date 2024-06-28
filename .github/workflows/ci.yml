@@ -25,7 +25,7 @@ jobs:
           cache-name: cache-m2-repository
         with:
           path: ./docker/test/image_files/.m2/repository
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('docker/test/image_files/.m2/repository') }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('docker/test/image_files/.m2') }}
           restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-
           save-always: true
 
