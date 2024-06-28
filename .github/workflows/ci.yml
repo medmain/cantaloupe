@@ -8,9 +8,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build & run Docker container
         run: |
-          docker-compose -f docker/test/docker-compose.yml -p cantaloupe up -d
+          docker-compose -f docker/test/docker-compose.yml -p cantaloupe up --build -d
           docker pull amazon/dynamodb-local
-          docker run -d -p 8000:8000 amazon/dynamodb-local
+#          docker run -d -p 8000:8000 amazon/dynamodb-local
+          docker ps
           docker exec --user cantaloupe cantaloupe_test_1 /bin/sh -c "cd /home/cantaloupe; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.S3CacheTest"
           docker exec --user cantaloupe cantaloupe_test_1 /bin/sh -c "cd /home/cantaloupe; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.RedisCacheTest"
 #          docker exec --user cantaloupe cantaloupe_test_1 /bin/sh -c "cd /home/cantaloupe; mvn clean test -Pfreedeps"
