@@ -32,11 +32,11 @@ WORKDIR $home
 # Add mirrors for maven central as the one referenced in ImageIO-EXT's POM is
 # offline. TODO: come back in the future and check whether this is still necessary
 RUN mkdir $home/.m2
-COPY --chown=cantaloupe docker/test/image_files/.m2 $home/
+COPY --chown=cantaloupe docker/test/image_files/.m2/* $home/.m2
 
 # Install application dependencies
 COPY ./pom.xml pom.xml
-#RUN mvn dependency:resolve
+RUN mvn dependency:resolve
 
 # Install Minio S3 server for S3SourceTest and S3CacheTest
 ARG s3=$home/s3
