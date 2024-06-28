@@ -26,8 +26,8 @@ jobs:
         with:
           path: ./docker/test/image_files/.m2/repository
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('docker/test/image_files/.m2/repository') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
+          restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-
+          save-always: true
 
       - name: information
         run: |
