@@ -5,9 +5,10 @@ jobs:
     name: Test in JDK 11
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Build & run Docker container
         run: |
+          docker-compose down --rmi all --volumes --remove-orphans
           docker-compose -f docker/test/docker-compose.yml -p cantaloupe up --build -d
           docker ps
           docker exec --user cantaloupe cantaloupe_test_1 /bin/sh -c "cd /home/cantaloupe; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.S3CacheTest"
