@@ -22,36 +22,16 @@ COPY dist/deps/Linux-x86-64/bin/* /usr/bin/
 COPY dist/deps/Linux-x86-64/lib/* /usr/lib/
 
 # A non-root user is needed for some FilesystemSourceTest tests to work.
-ARG user=cantaloupe
-ARG home=/home/$user
-RUN adduser --home $home $user
-RUN chown -R $user $home
-USER $user
-WORKDIR $home
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-# Add mirrors for maven central as the one referenced in ImageIO-EXT's POM is
-# offline. TODO: come back in the future and check whether this is still necessary
-RUN mkdir $home/.m2
-COPY --chown=cantaloupe docker/test/image_files/.m2/* $home/.m2
+RUN mkdir -p /.m2/repository
+COPY docker/test/image_files/.m2/repository* /.m2/repository
+COPY docker/test/image_files/.m2/settings.xml /.m2/settings.xml
 
 # Install application dependencies
 COPY ./pom.xml pom.xml
 RUN mvn dependency:resolve
 
-# Install Minio S3 server for S3SourceTest and S3CacheTest
-ARG s3=$home/s3
-RUN mkdir -p $s3/.minio.sys/config $s3/test.cantaloupe.library.illinois.edu
-COPY docker/test/image_files/minio_config.json $s3/.minio.sys/config/config.json
-RUN curl -O https://dl.minio.io/server/minio/release/linux-amd64/minio
-RUN chmod +x minio
-
 # Copy the code
-COPY --chown=cantaloupe docker/test/image_files/test.properties test.properties
-COPY --chown=cantaloupe ./src src
-
-# redis
-COPY --chown=cantaloupe docker/test/image_files/redis.conf redis.conf
-
-COPY --chown=cantaloupe docker/test/image_files/entrypoint.sh entrypoint.sh
-RUN chmod +x entrypoint.sh
-ENTRYPOINT ["/home/cantaloupe/entrypoint.sh"]
+COPY docker/test/image_files/test.properties test.properties
+COPY ./src src

@@ -1,0 +1,5 @@
+FROM quay.io/minio/minio:latest
+
+ARG s3=/s3
+RUN mkdir -p $s3/.minio.sys/config $s3/test.cantaloupe.library.illinois.edu
+COPY docker/test/image_files/minio_config.json $s3/.minio.sys/config/config.json

@@ -1,22 +1,49 @@
 version: '3.9'
 
 services:
-  test:
+  minio:
     build:
       context: ${PWD}
-      dockerfile: docker/test/Dockerfile_test_server
-#    tty: true
+      dockerfile: docker/test/Dockerfile_minio_server
+    container_name: minio_cantaloupe
+    hostname: minio-host
     environment:
       MINIO_ROOT_USER: MinioUser
       MINIO_ROOT_PASSWORD: OpenSesame
-#    command:  /bin/sh -c "redis-server /home/cantaloupe/redis.conf && \
-#                          ./minio server --console-address ":9001" /home/cantaloupe/s3"
+    command: |
+      minio server /s3 --console-address ":9001" & \
     ports:
       - "9000:9000"
       - "9001:9001"
     networks:
       image:
+        ipv4_address: 172.30.0.5
+
+  redis:
+    build:
+      context: ${PWD}
+      dockerfile: docker/test/Dockerfile_redis_server
+    container_name: redis_cantaloupe
+    hostname: redis-host
+    ports:
+      - "6379:6379"
+    networks:
+      image:
         ipv4_address: 172.30.0.10
+
+  test:
+    build:
+      context: ${PWD}
+      dockerfile: docker/test/Dockerfile_test_server
+    container_name: test_cantaloupe
+    hostname: test-host
+    tty: true
+    environment:
+      MINIO_ROOT_USER: MinioUser
+      MINIO_ROOT_PASSWORD: OpenSesame
+    networks:
+      image:
+        ipv4_address: 172.30.0.99
 
 networks:
   image:
