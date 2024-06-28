@@ -36,7 +36,7 @@ COPY --chown=cantaloupe docker/test/image_files/.m2 $home/
 
 # Install application dependencies
 COPY ./pom.xml pom.xml
-RUN mvn dependency:resolve
+#RUN mvn dependency:resolve
 
 # Install Minio S3 server for S3SourceTest and S3CacheTest
 ARG s3=$home/s3
