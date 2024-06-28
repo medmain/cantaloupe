@@ -9,6 +9,7 @@ jobs:
       - name: Build & run Docker container
         run: |
           docker images
+          docker ps
           docker-compose -f docker/test/docker-compose.yml down --rmi all --volumes --remove-orphans
           docker images
           docker-compose -f docker/test/docker-compose.yml -p cantaloupe up --build -d
