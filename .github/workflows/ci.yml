@@ -5,17 +5,6 @@ jobs:
     name: Test in JDK 11
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: information
-        run: |
-          pwd
-          ls -al
-          docker ps
-          docker images
-          docker-compose -f docker/test/docker-compose.yml down --rmi all --volumes --remove-orphans
-          docker images
-
       - name: Cache Dependency
         uses: actions/cache@v4
         id: cache_m2_repository
@@ -29,8 +18,20 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
+      - uses: actions/checkout@v4
+
+      - name: information
+        run: |
+          pwd
+          ls -al
+          ls -al docker/test/image_files/.m2
+          docker ps
+          docker images
+          docker-compose -f docker/test/docker-compose.yml down --rmi all --volumes --remove-orphans
+          docker images
+
       - if: ${{ steps.cache_m2_repository.outputs.cache-hit != 'true' }}
-        name: load m2 repository
+        name: check steps.cache_m2_repository.outputs.cache-hit
         continue-on-error: true
         run: ls -al docker/test/image_files/.m2
 
@@ -65,16 +66,3 @@ jobs:
 ##           docker run --name cantaloupe-minio -d -p 7229:7229 cantaloupe/tests /bin/sh -c "./minio server --address :7229 /home/cantaloupe/s3"
 ##           docker run --name cantaloupe-redis -d -p 7230:7230 cantaloupe/tests /bin/sh -c "redis-server --port 7230 --protected-mode no"
 ##           docker run --net host --user cantaloupe cantaloupe/tests /bin/sh -c "cd /home/cantaloupe; mvn clean test -Pfreedeps"
-  extra:
-    needs: build
-    name: Test in JDK 11
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: information
-        run: |
-          pwd
-          ls -al
-          docker ps
-          docker images
