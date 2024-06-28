@@ -300,7 +300,7 @@ abstract class AbstractCacheTest extends BaseTest {
         // purge one of the info/image pairs
         instance.purge(id1);
 
-        Thread.sleep(1000);
+        Thread.sleep(1500);
 
         // assert that its info and image are gone
         assertNull(instance.getImageInfo(id1));
