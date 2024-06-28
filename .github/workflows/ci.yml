@@ -9,7 +9,6 @@ jobs:
       - name: Build & run Docker container
         run: |
           docker-compose -f docker/test/docker-compose.yml -p cantaloupe up --build -d
-          docker pull amazon/dynamodb-local
           docker ps
           docker exec --user cantaloupe cantaloupe_test_1 /bin/sh -c "cd /home/cantaloupe; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.S3CacheTest"
           docker exec --user cantaloupe cantaloupe_test_1 /bin/sh -c "cd /home/cantaloupe; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.RedisCacheTest"
