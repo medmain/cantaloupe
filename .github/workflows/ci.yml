@@ -11,6 +11,6 @@ jobs:
           docker-compose -f docker/test/docker-compose.yml -p cantaloupe up -d
           docker pull amazon/dynamodb-local
           docker run -d -p 8000:8000 amazon/dynamodb-local
-          docker exec --user cantaloupe cantaloupe-test-1 /bin/sh -c "cd /home/cantaloupe; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.S3CacheTest"
-          docker exec --user cantaloupe cantaloupe-test-1 /bin/sh -c "cd /home/cantaloupe; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.RedisCacheTest"
-#          docker exec --user cantaloupe cantaloupe-test-1 /bin/sh -c "cd /home/cantaloupe; mvn clean test -Pfreedeps"
+          docker exec --user cantaloupe cantaloupe_test_1 /bin/sh -c "cd /home/cantaloupe; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.S3CacheTest"
+          docker exec --user cantaloupe cantaloupe_test_1 /bin/sh -c "cd /home/cantaloupe; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.RedisCacheTest"
+#          docker exec --user cantaloupe cantaloupe_test_1 /bin/sh -c "cd /home/cantaloupe; mvn clean test -Pfreedeps"
