@@ -9,6 +9,10 @@ jobs:
 
       - name: information
         run: |
+          pwd
+          cd ~
+          pwd
+          ls -al
           docker ps
           docker images
           docker-compose -f docker/test/docker-compose.yml down --rmi all --volumes --remove-orphans
