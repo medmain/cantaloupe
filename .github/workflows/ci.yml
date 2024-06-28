@@ -5,13 +5,14 @@ jobs:
     name: Test in JDK 11
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+
       - if: ${{ steps.cache_m2_repository.outputs.cache-hit != 'true' }}
         name: load m2 repository
         continue-on-error: true
         run: ls -al docker/test/image_files/.m2
 
       - name: docker-compose up
-        uses: actions/checkout@v4
         run: |
           docker ps
           docker-compose -f docker/test/docker-compose.yml down --rmi all --volumes --remove-orphans
@@ -35,13 +36,11 @@ jobs:
             ${{ runner.os }}-
 
       - name: extra image
-        uses: actions/checkout@v4
         run: |
           docker pull amazon/dynamodb-local
           docker run -d -p 8000:8000 amazon/dynamodb-local
           docker ps
       - name: docker run
-        uses: actions/checkout@v4
         run: |
           docker ps
           docker exec --user cantaloupe -d cantaloupe_test_1 /bin/sh -c "cd /home/cantaloupe; ./minio server --console-address ":9001" /home/cantaloupe/s3"
