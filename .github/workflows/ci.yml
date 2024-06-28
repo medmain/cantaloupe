@@ -5,20 +5,28 @@ jobs:
     name: Test in JDK 11
     runs-on: ubuntu-latest
     steps:
-      - name: Cache Dependency
-        uses: actions/cache@v4
-        id: cache_m2_repository
-        env:
-          cache-name: cache-m2-repository
-        with:
-          path: ./docker/test/image_files/.m2/repository
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('m2-repo.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
 
       - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '11'
+          cache: 'maven'
+          settings-path: ./docker/test/image_files/.m2
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+
+
+#      - name: Cache Dependency
+#        uses: actions/cache@v4
+#        id: cache_m2_repository
+#        env:
+#          cache-name: cache-m2-repository
+#        with:
+#          path: ./docker/test/image_files/.m2/repository
+#          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('m2-repo.json') }}
+#          restore-keys: |
+#            ${{ runner.os }}-build-${{ env.cache-name }}-
 
       - name: information
         run: |

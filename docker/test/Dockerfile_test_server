@@ -51,3 +51,7 @@ COPY --chown=cantaloupe ./src src
 
 # redis
 COPY --chown=cantaloupe docker/test/image_files/redis.conf redis.conf
+
+COPY --chown=cantaloupe docker/test/image_files/entorypoint.sh entrypoint.sh
+RUN chmod +x entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
