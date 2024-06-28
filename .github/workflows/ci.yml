@@ -13,8 +13,8 @@ jobs:
           java-version: '11'
           cache: 'maven'
           settings-path: ./docker/test/image_files/.m2
-      - name: Build with Maven
-        run: mvn -B package --file pom.xml
+      - name: mvn dependency:resolve
+        run: mvn dependency:resolve
 
 
 #      - name: Cache Dependency
