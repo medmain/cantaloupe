@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  test:
+    build:
+      context: ${PWD}
+      dockerfile: docker/test/Dockerfile_test_server
+    tty: true
+    environment:
+      MINIO_ROOT_USER: MinioUser
+      MINIO_ROOT_PASSWORD: OpenSesame
+    command:  /bin/sh -c "redis-server /home/cantaloupe/redis.conf && \
+                          ./minio server --console-address ":9001" /home/cantaloupe/s3"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    networks:
+      image:
+        ipv4_address: 172.30.0.10
+
+networks:
+  image:
+    name: image
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.30.0.0/24
