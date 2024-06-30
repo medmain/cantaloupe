@@ -50,6 +50,14 @@ jobs:
           docker-compose -f docker/test/docker-compose.yml -p cantaloupe up --build -d
           docker ps
 
+      - name: ping
+        run: |
+          docker ps
+          echo 'http://minio-host:9000'
+          curl 'http://minio-host:9000'
+          echo 'http://redis-host:6379'
+          curl 'http://redis-host:6379'
+
       - name: extract repositories
         run: |
           docker ps

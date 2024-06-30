@@ -1,4 +1,4 @@
-FROM quay.io/minio/minio:latest
+FROM minio/minio:RELEASE.2024-06-29T01-20-47Z
 
 ARG s3=/s3
 RUN mkdir -p $s3/.minio.sys/config $s3/test.cantaloupe.library.illinois.edu
