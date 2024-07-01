@@ -32,12 +32,22 @@ jobs:
           docker ps
           docker exec -d TestCantaloupe /bin/sh -c "redis-server /data/redis.conf" 
 
-      - run: sleep 3
+      - run: sleep 5
 
-      - name: docker run
+      - name: info
         run: |
           docker ps
           docker exec TestCantaloupe /bin/sh -c "ps aux |grep minio"
           docker exec TestCantaloupe /bin/sh -c "ps aux |grep redis"
+
+      - name: test pickup
+        run: |
+          docker ps
           docker exec TestCantaloupe /bin/sh -c "mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.S3CacheTest"
+          docker ps
           docker exec TestCantaloupe /bin/sh -c "mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.RedisCacheTest"
+
+      - name: test 'mvn clean test -Pfreedeps'
+        run: |
+          docker ps
+          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Pfreedeps"
