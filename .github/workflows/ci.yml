@@ -30,7 +30,7 @@ jobs:
       - name: boot
         run: |
           docker ps
-          docker exec -d cantaloupe_test /bin/sh -c "redis-server /data/redis.conf" 
+          docker exec -d TestCantaloupe /bin/sh -c "redis-server /data/redis.conf" 
 
       - run: sleep 3
 
