@@ -8,27 +8,6 @@ jobs:
 
       - uses: actions/checkout@v4
 
-#      - uses: actions/setup-java@v4
-#        with:
-#          distribution: 'corretto'
-#          java-version: '11'
-#          cache: 'maven'
-#          settings-path: ./docker/test/image_files/.m2
-#      - name: cache mvn dependency:resolve
-#        run: mvn dependency:resolve
-
-
-      - name: Cache Dependency
-        uses: actions/cache@v4
-        id: cache_m2_repository
-        env:
-          cache-name: cache-m2-repository
-        with:
-          path: ./docker/test/image_files/.m2/repository
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('docker/test/image_files/.m2') }}
-          restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-
-#          save-always: true
-
       - name: information
         run: |
           pwd
@@ -40,22 +19,12 @@ jobs:
           docker-compose -f docker/test/docker-compose.yml down --rmi all --volumes --remove-orphans
           docker images
 
-      - if: ${{ steps.cache_m2_repository.outputs.cache-hit != 'true' }}
-        name: check steps.cache_m2_repository.outputs.cache-hit
-        continue-on-error: true
-        run: ls -al docker/test/image_files/.m2
-
       - name: docker-compose up
         run: |
           docker-compose -f docker/test/docker-compose.yml -p cantaloupe up --build -d
           docker ps
 
       - run: sleep 2 # per seconds
-
-      - name: extract repositories
-        run: |
-          docker cp cantaloupe_test_1:/home/cantaloupe/.m2/repository docker/test/image_files/.m2/
-          ls -al docker/test/image_files/.m2/
 
         # FIXME I want to write it at the entrypoint.sh
       - name: boot
