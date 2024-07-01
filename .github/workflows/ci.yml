@@ -54,9 +54,9 @@ jobs:
         run: |
           docker ps
           echo 'http://minio-host:9000'
-          docker exec -ti test_cantaloupe /bin/sh -c "curl 'http://minio-host:9000'"
+          docker exec -ti  -T test_cantaloupe /bin/sh -c "curl 'http://minio-host:9000'"
           echo 'http://redis-host:6379'
-          docker exec -ti test_cantaloupe /bin/sh -c "curl 'http://redis-host:6379'"
+          docker exec -ti  -T test_cantaloupe /bin/sh -c "curl 'http://redis-host:6379'"
 
       - name: extract repositories
         run: |
