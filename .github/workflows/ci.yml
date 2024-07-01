@@ -50,6 +50,9 @@ jobs:
           docker-compose -f docker/test/docker-compose.yml -p cantaloupe up --build -d
           docker ps
 
+      - run: sleep 1000
+        timeout-minutes: 10 # step個別
+
       - name: ping
         run: |
           docker ps
