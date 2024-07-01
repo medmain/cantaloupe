@@ -30,7 +30,7 @@ COPY docker/test/image_files/.m2/settings.xml /.m2/settings.xml
 
 # Install application dependencies
 COPY ./pom.xml pom.xml
-RUN mvn dependency:resolve
+#RUN mvn dependency:resolve
 
 # Copy the code
 COPY docker/test/image_files/test.properties test.properties

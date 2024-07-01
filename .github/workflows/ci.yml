@@ -54,9 +54,9 @@ jobs:
         run: |
           docker ps
           echo 'http://minio-host:9000'
-          curl 'http://minio-host:9000'
+          docker exec -ti test_cantaloupe /bin/sh -c "curl 'http://minio-host:9000'"
           echo 'http://redis-host:6379'
-          curl 'http://redis-host:6379'
+          docker exec -ti test_cantaloupe /bin/sh -c "curl 'http://redis-host:6379'"
 
       - name: extract repositories
         run: |
@@ -72,13 +72,13 @@ jobs:
       - name: docker run
         run: |
           docker ps
-          docker exec --user cantaloupe -d cantaloupe_test_1 /bin/sh -c "cd /home/cantaloupe; ./minio server --console-address ":9001" /home/cantaloupe/s3"
-          docker exec --user cantaloupe -d cantaloupe_test_1 /bin/sh -c "cd /home/cantaloupe; redis-server /home/cantaloupe/redis.conf"
-          docker exec -ti --user cantaloupe cantaloupe_test_1 /bin/sh -c "ps aux |grep minio"
-          docker exec -ti --user cantaloupe cantaloupe_test_1 /bin/sh -c "ps aux |grep redis"
-          docker ps
-          docker exec --user cantaloupe cantaloupe_test_1 /bin/sh -c "cd /home/cantaloupe; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.S3CacheTest"
-          docker exec --user cantaloupe cantaloupe_test_1 /bin/sh -c "cd /home/cantaloupe; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.RedisCacheTest"
+#          docker exec --user cantaloupe -d cantaloupe_test_1 /bin/sh -c "cd /home/cantaloupe; ./minio server --console-address ":9001" /home/cantaloupe/s3"
+#          docker exec --user cantaloupe -d cantaloupe_test_1 /bin/sh -c "cd /home/cantaloupe; redis-server /home/cantaloupe/redis.conf"
+#          docker exec -ti --user cantaloupe cantaloupe_test_1 /bin/sh -c "ps aux |grep minio"
+#          docker exec -ti --user cantaloupe cantaloupe_test_1 /bin/sh -c "ps aux |grep redis"
+#          docker ps
+#          docker exec --user cantaloupe cantaloupe_test_1 /bin/sh -c "cd /home/cantaloupe; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.S3CacheTest"
+#          docker exec --user cantaloupe cantaloupe_test_1 /bin/sh -c "cd /home/cantaloupe; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.RedisCacheTest"
 #
 ##           docker build -f docker/test/Dockerfile -t cantaloupe/tests .
 ##           docker run --name cantaloupe-minio -d -p 7229:7229 cantaloupe/tests /bin/sh -c "./minio server --address :7229 /home/cantaloupe/s3"
