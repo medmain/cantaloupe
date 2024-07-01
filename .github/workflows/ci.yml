@@ -30,14 +30,14 @@ jobs:
       - name: boot
         run: |
           docker ps
-          docker exec -d cantaloupe_test_1 /bin/sh -c "redis-server /data/redis.conf" 
+          docker exec -d cantaloupe_test /bin/sh -c "redis-server /data/redis.conf" 
 
       - run: sleep 3
 
       - name: docker run
         run: |
           docker ps
-          docker exec -ti --user cantaloupe cantaloupe_test_1 /bin/sh -c "ps aux |grep minio"
-          docker exec -ti --user cantaloupe cantaloupe_test_1 /bin/sh -c "ps aux |grep redis"
-          docker exec --user cantaloupe cantaloupe_test_1 /bin/sh -c "cd /home/cantaloupe; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.S3CacheTest"
-          docker exec --user cantaloupe cantaloupe_test_1 /bin/sh -c "cd /home/cantaloupe; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.RedisCacheTest"
+          docker exec -ti --user cantaloupe cantaloupe_test /bin/sh -c "ps aux |grep minio"
+          docker exec -ti --user cantaloupe cantaloupe_test /bin/sh -c "ps aux |grep redis"
+          docker exec --user cantaloupe cantaloupe_test /bin/sh -c "cd /home/cantaloupe; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.S3CacheTest"
+          docker exec --user cantaloupe cantaloupe_test /bin/sh -c "cd /home/cantaloupe; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.RedisCacheTest"
