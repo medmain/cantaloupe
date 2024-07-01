@@ -6,7 +6,7 @@ services:
     build:
       context: ${PWD}
       dockerfile: docker/test/Dockerfile_test_server
-    container_name: test_cantaloupe
+    container_name: TestCantaloupe
     hostname: test-host
     tty: true
     environment:

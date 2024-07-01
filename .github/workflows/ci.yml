@@ -24,7 +24,7 @@ jobs:
           docker-compose -f docker/test/docker-compose.yml -p cantaloupe up --build -d
           docker ps
 
-      - run: sleep 2 # per seconds
+      - run: sleep 3 # per seconds
 
         # FIXME I want to write it at the entrypoint.sh
       - name: boot
@@ -37,7 +37,7 @@ jobs:
       - name: docker run
         run: |
           docker ps
-          docker exec -ti --user cantaloupe cantaloupe_test /bin/sh -c "ps aux |grep minio"
-          docker exec -ti --user cantaloupe cantaloupe_test /bin/sh -c "ps aux |grep redis"
-          docker exec --user cantaloupe cantaloupe_test /bin/sh -c "cd /home/cantaloupe; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.S3CacheTest"
-          docker exec --user cantaloupe cantaloupe_test /bin/sh -c "cd /home/cantaloupe; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.RedisCacheTest"
+          docker exec TestCantaloupe /bin/sh -c "ps aux |grep minio"
+          docker exec TestCantaloupe /bin/sh -c "ps aux |grep redis"
+          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.S3CacheTest"
+          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.RedisCacheTest"
