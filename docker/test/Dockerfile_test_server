@@ -21,9 +21,10 @@ COPY docker/test/image_files/libjpeg-turbo/lib64 /opt/libjpeg-turbo/lib
 COPY dist/deps/Linux-x86-64/bin/* /usr/bin/
 COPY dist/deps/Linux-x86-64/lib/* /usr/lib/
 
-RUN mkdir -p /.m2/repository
-COPY docker/test/image_files/.m2/repository* /.m2/repository
-COPY docker/test/image_files/.m2/settings.xml /.m2/settings.xml
+# How to find it -> mvn help:evaluate -Dexpression=settings.localRepository -q -DforceStdout
+RUN mkdir -p /root/.m2/repository
+COPY docker/test/image_files/.m2/repository* /root/.m2/repository
+COPY docker/test/image_files/.m2/settings.xml /root/.m2/settings.xml
 
 # Install application dependencies
 COPY ./pom.xml pom.xml

@@ -39,13 +39,15 @@ jobs:
           docker ps
           docker exec TestCantaloupe /bin/sh -c "ps aux |grep minio"
           docker exec TestCantaloupe /bin/sh -c "ps aux |grep redis"
+          echo ".m2 finding"
+          docker exec TestCantaloupe /bin/sh -c "mvn help:evaluate -Dexpression=settings.localRepository -q -DforceStdout"
 
-      - name: test pickup
-        run: |
-          docker ps
-          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.S3CacheTest"
-          docker ps
-          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.RedisCacheTest"
+#      - name: test pickup
+#        run: |
+#          docker ps
+#          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.S3CacheTest"
+#          docker ps
+#          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.RedisCacheTest"
 
       - name: test 'mvn clean test -Pfreedeps'
         run: |
