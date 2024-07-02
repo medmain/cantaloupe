@@ -42,6 +42,7 @@ COPY ./src src
 ARG user=cantaloupe
 ARG home=/home/$user
 RUN adduser --home $home $user
+RUN mkdir -p /home/$user/repository
 RUN chown -R $user $home
 #USER $user
 #WORKDIR $home
