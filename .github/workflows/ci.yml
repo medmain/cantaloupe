@@ -1,14 +1,11 @@
 name: CI
 on: [push]
-
 jobs:
   build:
     name: Test in JDK 11
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@v4
-
       - name: Cache Dependency
         uses: actions/cache@v4
         id: cache_m2_repository
@@ -18,7 +15,6 @@ jobs:
           path: ./docker/test/image_files/.m2/repository
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('docker/test/image_files/.m2') }}
           restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-
-
       - name: information
         run: |
           pwd
@@ -51,16 +47,8 @@ jobs:
           docker exec TestCantaloupe /bin/sh -c "ps aux |grep minio"
           docker exec TestCantaloupe /bin/sh -c "ps aux |grep redis"
 
-#      - name: test pickup
-#        run: |
-#          docker ps
-#          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.S3CacheTest"
-#          docker ps
-#          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.RedisCacheTest"
-
       - name: setup maven
         run: |
-#          docker exec TestCantaloupe /bin/sh -c "sed -i 's@/path/to/local/repo@/.m2/repository@g' /etc/maven/settings.xml"
           docker exec TestCantaloupe /bin/sh -c "mkdir -p /root/.m2/repository"
           docker cp docker/test/image_files/.m2/repository TestCantaloupe:/root/.m2/
           docker cp docker/test/image_files/.m2/settings.xml TestCantaloupe:/root/.m2/settings.xml
