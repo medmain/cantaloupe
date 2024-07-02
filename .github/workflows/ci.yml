@@ -68,7 +68,7 @@ jobs:
       - name: test pickup
         run: |
           docker ps
-#          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.S3CacheTest"
+          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.S3CacheTest"
           docker ps
           docker exec TestCantaloupe /bin/sh -c "mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.RedisCacheTest"
 
