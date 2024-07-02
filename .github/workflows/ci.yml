@@ -23,16 +23,6 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('docker/github/actions/cache/.m2/repository') }}
           restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-
 
-#      - name: Cache minIO
-#        uses: actions/cache@v4
-#        id: cache_minio
-#        env:
-#          cache-name: cache-minio
-#        with:
-#          path: ./docker/github/actions/cache/minio
-#          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('/docker/github/actions/cache/minio') }}
-#          restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-
-
       - name: information
         run: |
           pwd
@@ -72,16 +62,6 @@ jobs:
           echo "ls -al ${CANTALOUPE_HOME}/.m2/repository"
           docker exec TestCantaloupe /bin/sh -c "ls -al ${CANTALOUPE_HOME}/.m2/repository"
 
-#      - name: setup maven
-#        run: |
-#          docker exec TestCantaloupe /bin/sh -c "mkdir -p ${ROOT_DIR}/.m2/repository"
-#          docker cp docker/test/image_files/.m2/repository TestCantaloupe:${ROOT_DIR}/.m2/
-#          docker cp docker/test/image_files/.m2/settings.xml TestCantaloupe:${ROOT_DIR}/.m2/settings.xml
-#          docker cp ./pom.xml TestCantaloupe:pom.xml
-#          echo ".m2 finding"
-#          docker exec TestCantaloupe /bin/sh -c "mvn help:evaluate -Dexpression=settings.localRepository -q -DforceStdout"
-#          docker exec TestCantaloupe /bin/sh -c "mvn dependency:resolve"
-
       - name: mvn dependency:resolve
         run: |
           echo ".m2 finding"
@@ -91,31 +71,22 @@ jobs:
 
       - name: test pickup
         run: |
-           docker ps
-           docker exec --user cantaloupe TestCantaloupe /bin/sh -c "cd ${CANTALOUPE_HOME}; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.RedisCacheTest"
+          docker ps
+#          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "cd ${CANTALOUPE_HOME}; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.RedisCacheTest"
 #          docker ps
 #          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "cd ${CANTALOUPE_HOME}; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.S3CacheTest"
 
       - name: test 'mvn clean test -Pfreedeps' user=cantaloupe
         run: |
           docker ps
-#          docker exec TestCantaloupe /bin/sh -c "mkdir -p ${CANTALOUPE_HOME}/.m2/repository"
-#          docker cp ./docker/test/image_files/.m2/repository TestCantaloupe:${CANTALOUPE_HOME}/.m2/
-#          docker cp ./docker/test/image_files/.m2/settings.xml TestCantaloupe:${CANTALOUPE_HOME}/.m2/settings.xml
-#          docker cp ./docker/test/image_files/test.properties TestCantaloupe:${CANTALOUPE_HOME}/test.properties
-#          docker cp ./src TestCantaloupe:${CANTALOUPE_HOME}/
-#          docker cp ./pom.xml TestCantaloupe:${CANTALOUPE_HOME}/pom.xml
-#          docker exec TestCantaloupe /bin/sh -c "mkdir -p ${CANTALOUPE_HOME}/.m2/repository"
-#          docker exec TestCantaloupe /bin/sh -c "chown -R ${CANTALOUPE_HOME}; chmod -R 777 ${CANTALOUPE_HOME}"
-#          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "cd ${CANTALOUPE_HOME}; mvn clean test -Pfreedeps"
+          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "cd ${CANTALOUPE_HOME}; mvn clean test -Pfreedeps"
 
       - name: test 'mvn clean test -Pfreedeps' user=root
         run: |
           docker ps
-#          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Pfreedeps"
+          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Pfreedeps"
 
       - name: set cache modules
         run: |
           docker cp TestCantaloupe:${CANTALOUPE_HOME}/.m2/repository docker/github/actions/cache/.m2/
-#          docker cp TestCantaloupe:/minio docker/github/actions/cache/
 
