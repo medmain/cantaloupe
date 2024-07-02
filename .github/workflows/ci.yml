@@ -72,14 +72,22 @@ jobs:
 #          docker ps
 #          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.RedisCacheTest"
 
-      - name: test 'mvn clean test -Pfreedeps'
+      - name: test 'mvn clean test -Pfreedeps' user=cantaloupe
         run: |
           docker ps
           docker exec TestCantaloupe /bin/sh -c "mkdir -p ${CANTALOUPE_HOME}/.m2/repository"
-          docker cp docker/test/image_files/.m2/repository TestCantaloupe:${CANTALOUPE_HOME}/.m2/
-          docker cp docker/test/image_files/.m2/settings.xml TestCantaloupe:${CANTALOUPE_HOME}/.m2/settings.xml
-          docker exec TestCantaloupe /bin/sh -c "mkdir -p /target/classes; chmod 777 -R /target"
-          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "sudo mvn clean test -Pfreedeps"
+          docker cp ./docker/test/image_files/.m2/repository TestCantaloupe:${CANTALOUPE_HOME}/.m2/
+          docker cp ./docker/test/image_files/.m2/settings.xml TestCantaloupe:${CANTALOUPE_HOME}/.m2/settings.xml
+          docker cp ./docker/test/image_files/test.properties TestCantaloupe:${CANTALOUPE_HOME}/test.properties
+          docker cp ./src TestCantaloupe:${CANTALOUPE_HOME}/
+          docker cp ./pom.xml TestCantaloupe:${CANTALOUPE_HOME}/pom.xml
+          docker exec TestCantaloupe /bin/sh -c "mkdir -p ${CANTALOUPE_HOME}/.m2/repository"
+          docker exec TestCantaloupe /bin/sh -c "chown -R ${CANTALOUPE_HOME}; chmod -R 777 ${CANTALOUPE_HOME}"
+          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "cd ${CANTALOUPE_HOME}; mvn clean test -Pfreedeps"
+
+      - name: test 'mvn clean test -Pfreedeps' user=root
+        run: |
+          docker ps
 #          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Pfreedeps"
 
       - name: cache
