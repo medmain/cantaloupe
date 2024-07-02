@@ -37,8 +37,7 @@ jobs:
         run: |
           pwd
           ls -al
-          ls -al docker/test/image_files/.m2
-          ls -al docker/test/image_files/.m2/repository
+          ls -al docker/github/actions/cache/.m2/repository
           docker ps
           docker images
           docker-compose -f docker/test/docker-compose.yml down --rmi all --volumes --remove-orphans
