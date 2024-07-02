@@ -47,7 +47,7 @@ COPY docker/test/image_files/test.properties $home/test.properties
 COPY ./pom.xml $home/pom.xml
 COPY ./src $home/src
 RUN mkdir -p $home/.m2/repository
-COPY docker/github/actions/cache/.m2/repository* $home/.m2/
+COPY docker/github/actions/cache/.m2/repository $home/.m2/repository
 COPY docker/test/image_files/.m2/settings.xml $home/.m2/settings.xml
 RUN chown -R $user $home
 RUN chmod -R 755 $home
