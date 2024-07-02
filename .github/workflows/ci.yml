@@ -50,4 +50,4 @@ jobs:
       - name: test 'mvn clean test -Pfreedeps'
         run: |
           docker ps
-          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Pfreedeps"
+          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "mvn clean test -Pfreedeps"
