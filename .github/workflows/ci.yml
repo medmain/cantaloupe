@@ -78,6 +78,7 @@ jobs:
           docker exec TestCantaloupe /bin/sh -c "mkdir -p ${CANTALOUPE_HOME}/.m2/repository"
           docker cp docker/test/image_files/.m2/repository TestCantaloupe:${CANTALOUPE_HOME}/.m2/
           docker cp docker/test/image_files/.m2/settings.xml TestCantaloupe:${CANTALOUPE_HOME}/.m2/settings.xml
+          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "mkdir -p target; chmod -R 777 target"
           docker exec --user cantaloupe TestCantaloupe /bin/sh -c "mvn clean test -Pfreedeps"
 #          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Pfreedeps"
 
