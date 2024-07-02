@@ -91,10 +91,10 @@ jobs:
 
       - name: test pickup
         run: |
-          docker ps
-#          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.S3CacheTest"
+           docker ps
+           docker exec TestCantaloupe /bin/sh -c "mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.RedisCacheTest"
 #          docker ps
-#          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.RedisCacheTest"
+#          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.S3CacheTest"
 
       - name: test 'mvn clean test -Pfreedeps' user=cantaloupe
         run: |
