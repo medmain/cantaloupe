@@ -59,7 +59,21 @@ jobs:
 #          docker ps
 #          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.RedisCacheTest"
 
+      - name: setup maven
+        run: |
+          docker exec TestCantaloupe /bin/sh -c "sed -i 's@/path/to/local/repo@/.m2/repository@g' /etc/maven/settings.xml"
+          docker exec TestCantaloupe /bin/sh -c "mkdir -p /.m2/repository; chmod 777 -R /.m2"
+          docker cp docker/test/image_files/.m2/repository TestCantaloupe:/.m2/
+          docker cp docker/test/image_files/.m2/settings.xml TestCantaloupe:/.m2/settings.xml
+          docker cp ./pom.xml TestCantaloupe:pom.xml
+          docker exec TestCantaloupe /bin/sh -c "mvn dependency:resolve"
+
       - name: test 'mvn clean test -Pfreedeps'
         run: |
           docker ps
-          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "mvn clean test -Pfreedeps"
+          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Pfreedeps"
+
+      - name: cache
+        run: |
+          docker cp TestCantaloupe:/.m2/repository docker/test/image_files/.m2/
+
