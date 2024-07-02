@@ -63,6 +63,14 @@ jobs:
           docker ps
           docker exec TestCantaloupe /bin/sh -c "ps aux |grep minio"
           docker exec TestCantaloupe /bin/sh -c "ps aux |grep redis"
+          echo "ls -al /"
+          docker exec TestCantaloupe /bin/sh -c "ls -al /"
+          echo "ls -al /root"
+          docker exec TestCantaloupe /bin/sh -c "ls -al /root"
+          echo "ls -al ${CANTALOUPE_HOME}"
+          docker exec TestCantaloupe /bin/sh -c "ls -al ${CANTALOUPE_HOME}"
+          echo "ls -al ${CANTALOUPE_HOME}/.m2/repository"
+          docker exec TestCantaloupe /bin/sh -c "ls -al ${CANTALOUPE_HOME}/.m2/repository"
 
 #      - name: setup maven
 #        run: |
@@ -77,9 +85,9 @@ jobs:
       - name: mvn dependency:resolve
         run: |
           echo ".m2 finding"
-          docker exec TestCantaloupe /bin/sh -c "mvn help:evaluate -Dexpression=settings.localRepository -q -DforceStdout"
+          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "mvn help:evaluate -Dexpression=settings.localRepository -q -DforceStdout"
           echo ""
-          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "cd ${CANTALOUPE_HOME}; mvn dependency:resolve"
+#          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "cd ${CANTALOUPE_HOME}; mvn dependency:resolve"
 
       - name: test pickup
         run: |
