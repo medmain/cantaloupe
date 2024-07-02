@@ -39,10 +39,10 @@ COPY ./src src
 # A non-root user is needed for some FilesystemSourceTest tests to work.
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 # FIXME
-#ARG user=cantaloupe
-#ARG home=/home/$user
-#RUN adduser --home $home $user
-#RUN chown -R $user $home
+ARG user=cantaloupe
+ARG home=/home/$user
+RUN adduser --home $home $user
+RUN chown -R $user $home
 #USER $user
 #WORKDIR $home
 
