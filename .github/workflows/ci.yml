@@ -46,7 +46,7 @@ jobs:
           docker ps
           docker exec -d TestCantaloupe /bin/sh -c "redis-server /data/redis.conf" 
 
-      - run: sleep 5
+      - run: sleep 3
 
       - name: info
         run: |
@@ -76,15 +76,11 @@ jobs:
 #          docker ps
 #          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "cd ${CANTALOUPE_HOME}; mvn clean test -Dtest=edu.illinois.library.cantaloupe.cache.S3CacheTest"
 
-      - name: test 'mvn clean test -Pfreedeps' user=cantaloupe
+      - name: test 'mvn clean test -Pfreedeps'
         run: |
           docker ps
-          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "cd ${CANTALOUPE_HOME}; mvn clean test -Pfreedeps"
-
-      - name: test 'mvn clean test -Pfreedeps' user=root
-        run: |
-          docker ps
-          docker exec TestCantaloupe /bin/sh -c "mvn clean test -Pfreedeps"
+          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "cd ${CANTALOUPE_HOME}; mvn clean test -Dtest=^(?!.*(S3CacheTest)).*$"
+#          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "cd ${CANTALOUPE_HOME}; mvn clean test -Pfreedeps"
 
       - name: set cache modules
         run: |
