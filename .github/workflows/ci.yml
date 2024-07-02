@@ -23,15 +23,15 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('docker/github/actions/cache/.m2/repository') }}
           restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-
 
-      - name: Cache minIO
-        uses: actions/cache@v4
-        id: cache_minio
-        env:
-          cache-name: cache-minio
-        with:
-          path: ./docker/github/actions/cache/minio
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('/docker/github/actions/cache/minio') }}
-          restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-
+#      - name: Cache minIO
+#        uses: actions/cache@v4
+#        id: cache_minio
+#        env:
+#          cache-name: cache-minio
+#        with:
+#          path: ./docker/github/actions/cache/minio
+#          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('/docker/github/actions/cache/minio') }}
+#          restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-
 
       - name: information
         run: |
@@ -109,5 +109,5 @@ jobs:
       - name: set cache modules
         run: |
           docker cp TestCantaloupe:${CANTALOUPE_HOME}/.m2/repository docker/github/actions/cache/.m2/
-          docker cp TestCantaloupe:/minio docker/github/actions/cache/
+#          docker cp TestCantaloupe:/minio docker/github/actions/cache/
 
