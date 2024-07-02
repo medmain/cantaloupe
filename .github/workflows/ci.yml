@@ -73,13 +73,16 @@ jobs:
         run: |
           docker ps
 #          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "cd ${CANTALOUPE_HOME}; mvn clean test -Dtest=RedisCacheTest"
-#          docker ps
-#          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "cd ${CANTALOUPE_HOME}; mvn clean test -Dtest=S3CacheTest"
+
+      - name: test 'mvn clean test -Pnodeps'
+        run: |
+          docker ps
+          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "cd ${CANTALOUPE_HOME}; mvn clean test -Pnodeps"
 
       - name: test 'mvn clean test -Pfreedeps'
         run: |
           docker ps
-          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "cd ${CANTALOUPE_HOME}; mvn clean test -Pfreedeps"
+#          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "cd ${CANTALOUPE_HOME}; mvn clean test -Pfreedeps"
 
       - name: test S3CacheTest
         run: |

@@ -648,15 +648,6 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>**/S3CacheTest.java</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-
         </plugins>
     </build>
 
@@ -685,6 +676,8 @@
                                 <exclude>RedisCacheTest</exclude>
                                 <exclude>TurboJpegProcessorTest</exclude>
                                 <exclude>TurboJPEG*Test</exclude>
+                                <!-- S3CacheTestは結果が安定しないので別枠で実行する -->
+                                <exclude>S3CacheTest.java</exclude>
                             </excludes>
                         </configuration>
                     </plugin>
@@ -707,6 +700,8 @@
                             <reuseForks>false</reuseForks>
                             <excludes>
                                 <exclude>Azure*Test</exclude>
+                                <!-- S3CacheTestは結果が安定しないので別枠で実行する -->
+                                <exclude>S3CacheTest.java</exclude>
                             </excludes>
                         </configuration>
                     </plugin>
