@@ -7,7 +7,7 @@ env:
 
 jobs:
   build:
-    name: Test in JDK 11
+    name: Test in JDK 16
     runs-on: ubuntu-latest
     steps:
 
@@ -62,6 +62,14 @@ jobs:
           echo "ls -al ${CANTALOUPE_HOME}/.m2/repository"
           docker exec TestCantaloupe /bin/sh -c "ls -al ${CANTALOUPE_HOME}/.m2/repository"
 
+      - name: ping
+        run: |
+          docker ps
+          echo "minIO"
+          docker exec TestCantaloupe /bin/sh -c "curl 'http://127.0.0.1:9001'"
+          echo "redis"
+          docker exec TestCantaloupe /bin/sh -c "redis-cli ping"
+
       - name: mvn dependency:resolve
         run: |
           echo ".m2 finding"
@@ -72,7 +80,7 @@ jobs:
       - name: test pickup
         run: |
           docker ps
-      #          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "cd ${CANTALOUPE_HOME}; mvn clean test -Dtest=RedisCacheTest"
+#          docker exec --user cantaloupe TestCantaloupe /bin/sh -c "cd ${CANTALOUPE_HOME}; mvn clean test -Dtest=RedisCacheTest"
 
       - name: test 'mvn clean test -Pnodeps'
         run: |

@@ -7,8 +7,12 @@ RUN apt-get install -y --no-install-recommends \
     graphicsmagick \
     imagemagick \
     ffmpeg \
-    maven \
     libopenjp2-tools
+
+# maven
+RUN curl -O https://dlcdn.apache.org/maven/maven-3/3.9.8/binaries/apache-maven-3.9.8-bin.tar.gz
+RUN tar -xzf apache-maven-3.9.8-bin.tar.gz && rm -fr apache-maven-3.9.8-bin.tar.gz
+RUN chmod -R 755 apache-maven-3.9.8 && ln -s /apache-maven-3.9.8/bin/mvn /usr/local/bin/mvn
 
 # Install TurboJpegProcessor dependencies
 RUN mkdir -p /opt/libjpeg-turbo/lib
@@ -29,7 +33,7 @@ RUN chmod +x minio
 RUN mkdir -p /data/
 COPY docker/test/image_files/redis.conf /data/redis.conf
 
-# A non-root user is needed for some FilesystemSourceTest tests to work.
+# A non-root user is needed for some FilesystemSourceTest tests to work. -> resolved
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ARG user=cantaloupe
 ARG home=/home/$user
